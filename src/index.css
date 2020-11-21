@@ -1,0 +1,16 @@
+.alert {
+  font-size: 1.25rem;
+  padding: 0.8rem 1.25rem;
+}
+
+.success {
+  background: #009922;
+  color: #fff;
+  border: 1px solid #00cc00;
+}
+
+.danger {
+  background: #990022;
+  color: #fff;
+  border: 1px solid #cc0000;
+}
