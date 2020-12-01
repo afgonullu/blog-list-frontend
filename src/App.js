@@ -15,8 +15,14 @@ const App = () => {
 
   const createBlogRef = useRef()
 
+  const fetchData = async () => {
+    const blogs = await blogService.getAll()
+    blogs.sort((a, b) => b.likes - a.likes)
+    setBlogs(blogs)
+  }
+
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
+    fetchData()
   }, [])
 
   useEffect(() => {
@@ -94,6 +100,32 @@ const App = () => {
     )
   }
 
+  const handleLike = (blog) => {
+    const updatedBlog = {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1,
+    }
+
+    blogService.update(blog.id, updatedBlog)
+
+    //update ui components without db fetch
+    const updatedBlogs = [...blogs]
+
+    let blogToUpdate = updatedBlogs.find((item) => item.title === blog.title)
+
+    blogToUpdate = { ...blogToUpdate, ...updatedBlog }
+
+    const index = updatedBlogs.findIndex((item) => item.title === blog.title)
+
+    updatedBlogs
+      .splice(index, 1, blogToUpdate)
+      .sort((a, b) => b.likes - a.likes)
+
+    setBlogs(updatedBlogs)
+  }
+
   return (
     <div>
       <h1>Blog List App by Afg</h1>
@@ -105,11 +137,12 @@ const App = () => {
         <CreateBlog
           toggleRef={createBlogRef}
           setAlert={setAlert}
+          blogs={blogs}
           setBlogs={setBlogs}
         ></CreateBlog>
       </Toggleable>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleLike={() => handleLike(blog)} />
       ))}
     </div>
   )
