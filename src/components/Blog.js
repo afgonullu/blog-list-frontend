@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, showRemove, handleDelete }) => {
   const [isDetailsVisible, setDetailsVisibility] = useState(false)
   const blogStyle = {
     paddingTop: 10,
@@ -26,6 +26,7 @@ const Blog = ({ blog, handleLike }) => {
         <p>
           likes: {blog.likes} <button onClick={handleLike}>Like</button>
         </p>
+        {showRemove ? <button onClick={handleDelete}>Remove</button> : ""}
       </div>
     </div>
   )

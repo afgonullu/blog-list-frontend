@@ -19,6 +19,7 @@ const App = () => {
     const blogs = await blogService.getAll()
     blogs.sort((a, b) => b.likes - a.likes)
     setBlogs(blogs)
+    console.log(blogs)
   }
 
   useEffect(() => {
@@ -126,6 +127,21 @@ const App = () => {
     setBlogs(updatedBlogs)
   }
 
+  const handleDelete = (blog) => {
+    if (window.confirm(`Do you really want to delete ${blog.title}?`)) {
+      blogService.deleteBlog(blog.id)
+
+      //update ui components without db fetch
+      const updatedBlogs = [...blogs]
+
+      const index = updatedBlogs.findIndex((item) => item.title === blog.title)
+
+      updatedBlogs.splice(index, 1).sort((a, b) => b.likes - a.likes)
+
+      setBlogs(updatedBlogs)
+    }
+  }
+
   return (
     <div>
       <h1>Blog List App by Afg</h1>
@@ -142,7 +158,13 @@ const App = () => {
         ></CreateBlog>
       </Toggleable>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} handleLike={() => handleLike(blog)} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          handleLike={() => handleLike(blog)}
+          handleDelete={() => handleDelete(blog)}
+          showRemove={user.username === blog.user.username ? true : false}
+        />
       ))}
     </div>
   )
