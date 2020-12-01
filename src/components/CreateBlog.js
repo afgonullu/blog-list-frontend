@@ -31,7 +31,7 @@ const CreateBlog = (props) => {
       setUrl("")
     } catch (error) {
       props.setAlert({
-        message: `All Fields must be properly filled.`,
+        message: "All Fields must be properly filled.",
         type: "danger",
       })
       setTimeout(() => {
