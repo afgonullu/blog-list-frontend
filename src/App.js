@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Blog from "./components/Blog"
+import Toggleable from "./utilities/Toggleable"
 import InfoMessage from "./components/InfoMessage"
 import CreateBlog from "./components/CreateBlog"
 import blogService from "./services/blogs"
@@ -11,6 +12,8 @@ const App = () => {
   const [password, setPassword] = useState("")
   const [user, setUser] = useState(null)
   const [alert, setAlert] = useState({})
+
+  const createBlogRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -98,7 +101,13 @@ const App = () => {
       <h2>blogs</h2>
       <p>{user.name} is logged in.</p>
       <button onClick={handleLogout}>Log Out</button>
-      <CreateBlog setAlert={setAlert} setBlogs={setBlogs}></CreateBlog>
+      <Toggleable buttonLabel="New Note" ref={createBlogRef}>
+        <CreateBlog
+          toggleRef={createBlogRef}
+          setAlert={setAlert}
+          setBlogs={setBlogs}
+        ></CreateBlog>
+      </Toggleable>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}

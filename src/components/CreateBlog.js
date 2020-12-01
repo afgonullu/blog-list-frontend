@@ -15,6 +15,7 @@ const CreateBlog = (props) => {
         author,
         url,
       }
+      props.toggleRef.current.toggleVisibility()
       await blogService.create(newBlog)
       props.setAlert({
         message: `New Blog is Created: ${title} by ${author}`,
