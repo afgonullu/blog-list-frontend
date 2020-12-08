@@ -15,19 +15,32 @@ const Blog = ({ blog, handleLike, showRemove, handleDelete }) => {
 
   return (
     <div style={blogStyle}>
-      <div>
-        <span>TITLE: {blog.title}</span>
-        <button onClick={() => setDetailsVisibility(!isDetailsVisible)}>
+      <div className="blog__title-and-author">
+        <span>
+          TITLE: {blog.title} by {blog.author}{" "}
+        </span>
+        <button
+          className="blog__visibility-button"
+          onClick={() => setDetailsVisibility(!isDetailsVisible)}
+        >
           {isDetailsVisible ? "Hide" : "Show"}
         </button>
       </div>
-      <div style={detailsStyle}>
-        <p>author: {blog.author}</p>
+      <div className="blog__details" style={detailsStyle}>
         <p>url: {blog.url}</p>
         <p>
-          likes: {blog.likes} <button onClick={handleLike}>Like</button>
+          likes: {blog.likes}{" "}
+          <button className="blog__like-button" onClick={handleLike}>
+            Like
+          </button>
         </p>
-        {showRemove ? <button onClick={handleDelete}>Remove</button> : ""}
+        {showRemove ? (
+          <button className="blog__remove-button" onClick={handleDelete}>
+            Remove
+          </button>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   )
@@ -38,7 +51,6 @@ Blog.propTypes = {
   handleLike: PropTypes.func.isRequired,
   showRemove: PropTypes.bool.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
 }
 
 export default Blog
