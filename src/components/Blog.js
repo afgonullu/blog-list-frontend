@@ -14,7 +14,7 @@ const Blog = ({ blog, handleLike, showRemove, handleDelete }) => {
   const detailsStyle = { display: isDetailsVisible ? "" : "none" }
 
   return (
-    <div style={blogStyle}>
+    <div className="blogRow" style={blogStyle}>
       <div className="blog__title-and-author">
         <span>
           TITLE: {blog.title} by {blog.author}{" "}
@@ -29,7 +29,7 @@ const Blog = ({ blog, handleLike, showRemove, handleDelete }) => {
       <div className="blog__details" style={detailsStyle}>
         <p>url: {blog.url}</p>
         <p>
-          likes: {blog.likes}{" "}
+          likes: <span className="blogLikes">{blog.likes}</span>{" "}
           <button className="blog__like-button" onClick={handleLike}>
             Like
           </button>

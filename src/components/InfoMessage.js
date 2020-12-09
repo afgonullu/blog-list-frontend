@@ -4,11 +4,7 @@ const InfoMessage = (props) => {
   if (props.message === null) {
     return null
   }
-  return (
-    <div className={props.alertType}>
-      <span>{props.message}</span>
-    </div>
-  )
+  return <div className={`message ${props.alertType}`}>{props.message}</div>
 }
 
 export default InfoMessage

@@ -4,13 +4,13 @@
 }
 
 .success {
-  background: #009922;
+  background: rgb(0, 153, 34);
   color: #fff;
   border: 1px solid #00cc00;
 }
 
 .danger {
-  background: #990022;
+  background: rgb(153, 0, 34);
   color: #fff;
   border: 1px solid #cc0000;
 }

@@ -56,12 +56,12 @@ const App = () => {
       })
       setTimeout(() => {
         setAlert({})
-      }, 3000)
+      }, 8000)
     } catch (exception) {
       setAlert({ message: "Wrong credentials", type: "danger" })
       setTimeout(() => {
         setAlert({})
-      }, 3000)
+      }, 8000)
     }
   }
 
@@ -80,6 +80,7 @@ const App = () => {
           <div>
             username
             <input
+              id="username"
               type="text"
               value={username}
               name="Username"
@@ -89,13 +90,16 @@ const App = () => {
           <div>
             password
             <input
+              id="password"
               type="password"
               value={password}
               name="Password"
               onChange={({ target }) => setPassword(target.value)}
             />
           </div>
-          <button type="submit">login</button>
+          <button id="login-button" type="submit">
+            login
+          </button>
         </form>
       </div>
     )
@@ -148,7 +152,9 @@ const App = () => {
       <InfoMessage message={alert.message} alertType={alert.type} />
       <h2>blogs</h2>
       <p>{user.name} is logged in.</p>
-      <button onClick={handleLogout}>Log Out</button>
+      <button className="logout" onClick={handleLogout}>
+        Log Out
+      </button>
       <Toggleable buttonLabel="New Note" ref={createBlogRef}>
         <CreateBlog
           toggleRef={createBlogRef}
@@ -157,15 +163,17 @@ const App = () => {
           setBlogs={setBlogs}
         ></CreateBlog>
       </Toggleable>
-      {blogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleLike={() => handleLike(blog)}
-          handleDelete={() => handleDelete(blog)}
-          showRemove={user.username === blog.user.username ? true : false}
-        />
-      ))}
+      <div className="blogsList">
+        {blogs.map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleLike={() => handleLike(blog)}
+            handleDelete={() => handleDelete(blog)}
+            showRemove={user.username === blog.user.username ? true : false}
+          />
+        ))}
+      </div>
     </div>
   )
 }
