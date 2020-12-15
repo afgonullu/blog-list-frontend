@@ -3,71 +3,72 @@ import Blog from "./components/Blog"
 import Toggleable from "./utilities/Toggleable"
 import InfoMessage from "./components/InfoMessage"
 import CreateBlog from "./components/CreateBlog"
-import blogService from "./services/blogs"
-import loginService from "./services/login"
+// import blogService from "./services/blogs"
+// import loginService from "./services/login"
+import { initialize, giveLike, deleteBlog } from "./reducers/blogReducer"
+import { changeNotification } from "./reducers/notificationReducer"
+import { login, logout, setLoggedIn } from "./reducers/userReducer"
+import { useDispatch, useSelector } from "react-redux"
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  const blogs = useSelector((state) => state.blogs)
+  const user = useSelector((state) => state.user)
+  const dispatch = useDispatch()
+
+  // const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [user, setUser] = useState(null)
-  const [alert, setAlert] = useState({})
+  // const [user, setUser] = useState(null)
+  // const [alert, setAlert] = useState({})
 
   const createBlogRef = useRef()
 
-  const fetchData = async () => {
-    const blogs = await blogService.getAll()
-    blogs.sort((a, b) => b.likes - a.likes)
-    setBlogs(blogs)
-    console.log(blogs)
-  }
-
   useEffect(() => {
-    fetchData()
-  }, [])
+    dispatch(initialize())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogListUser")
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
+      dispatch(setLoggedIn(user))
+      // setUser(user)
+      // blogService.setToken(user.token)
       console.log(user)
     }
-  }, [])
+  }, [dispatch])
 
   const handleLogin = async (event) => {
     event.preventDefault()
 
     try {
-      const user = await loginService.login({
+      const credentials = {
         username,
         password,
-      })
-      blogService.setToken(user.token)
-      setUser(user)
-      window.localStorage.setItem("loggedBlogListUser", JSON.stringify(user))
+      }
+      dispatch(login(credentials))
+      // blogService.setToken(user.token)
+      // setUser(user)
+      // window.localStorage.setItem("loggedBlogListUser", JSON.stringify(user))
       setUsername("")
       setPassword("")
       console.log(user)
-      setAlert({
-        message: `login successful for ${user.username}`,
-        type: "success",
-      })
-      setTimeout(() => {
-        setAlert({})
-      }, 8000)
+      dispatch(
+        changeNotification(
+          "success",
+          `login successful for ${user.username}`,
+          5
+        )
+      )
     } catch (exception) {
-      setAlert({ message: "Wrong credentials", type: "danger" })
-      setTimeout(() => {
-        setAlert({})
-      }, 8000)
+      dispatch(changeNotification("danger", "Wrong credentials", 5))
     }
   }
 
   const handleLogout = () => {
-    setUser(null)
-    window.localStorage.removeItem("loggedBlogListUser")
+    dispatch(logout())
+    // setUser(null)
+    // window.localStorage.removeItem("loggedBlogListUser")
   }
 
   if (user === null) {
@@ -112,37 +113,13 @@ const App = () => {
       url: blog.url,
       likes: blog.likes + 1,
     }
-
-    blogService.update(blog.id, updatedBlog)
-
-    //update ui components without db fetch
-    const updatedBlogs = [...blogs]
-
-    let blogToUpdate = updatedBlogs.find((item) => item.title === blog.title)
-
-    blogToUpdate = { ...blogToUpdate, ...updatedBlog }
-
-    const index = updatedBlogs.findIndex((item) => item.title === blog.title)
-
-    updatedBlogs
-      .splice(index, 1, blogToUpdate)
-      .sort((a, b) => b.likes - a.likes)
-
-    setBlogs(updatedBlogs)
+    dispatch(giveLike(blog.id, updatedBlog))
+    dispatch(changeNotification("success", `we also like ${blog.title}`, 5))
   }
 
   const handleDelete = (blog) => {
     if (window.confirm(`Do you really want to delete ${blog.title}?`)) {
-      blogService.deleteBlog(blog.id)
-
-      //update ui components without db fetch
-      const updatedBlogs = [...blogs]
-
-      const index = updatedBlogs.findIndex((item) => item.title === blog.title)
-
-      updatedBlogs.splice(index, 1).sort((a, b) => b.likes - a.likes)
-
-      setBlogs(updatedBlogs)
+      dispatch(deleteBlog(blog.id))
     }
   }
 
@@ -158,9 +135,9 @@ const App = () => {
       <Toggleable buttonLabel="New Note" ref={createBlogRef}>
         <CreateBlog
           toggleRef={createBlogRef}
-          setAlert={setAlert}
-          blogs={blogs}
-          setBlogs={setBlogs}
+          // setAlert={setAlert}
+          // blogs={blogs}
+          // setBlogs={setBlogs}
         ></CreateBlog>
       </Toggleable>
       <div className="blogsList">

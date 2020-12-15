@@ -25,6 +25,7 @@ const deleteBlog = async (id) => {
 }
 
 const update = async (id, updatedObject) => {
+  console.log(id)
   const response = await axios.put(`${baseUrl}/${id}`, updatedObject)
   return response.data
 }

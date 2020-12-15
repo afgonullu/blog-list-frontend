@@ -1,7 +1,10 @@
 import React, { useState } from "react"
-import blogService from "../services/blogs"
+import { useDispatch } from "react-redux"
+import { changeNotification } from "../reducers/notificationReducer"
+import { createBlog } from "../reducers/blogReducer"
 
 const CreateBlog = (props) => {
+  const dispatch = useDispatch()
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
   const [url, setUrl] = useState("")
@@ -16,27 +19,21 @@ const CreateBlog = (props) => {
         url,
       }
       props.toggleRef.current.toggleVisibility()
-      await blogService.create(newBlog)
-      props.setAlert({
-        message: `New Blog is Created: ${title} by ${author}`,
-        type: "success",
-      })
-      setTimeout(() => {
-        props.setAlert({})
-      }, 3000)
-      const blogs = await blogService.getAll()
-      props.setBlogs(blogs)
+      dispatch(createBlog(newBlog))
+      dispatch(
+        changeNotification(
+          "success",
+          `New Blog is Created: ${title} by ${author}`,
+          5
+        )
+      )
       setTitle("")
       setAuthor("")
       setUrl("")
     } catch (error) {
-      props.setAlert({
-        message: "All Fields must be properly filled.",
-        type: "danger",
-      })
-      setTimeout(() => {
-        props.setAlert({})
-      }, 3000)
+      dispatch(
+        changeNotification("danger", "All Fields must be properly filled.", 5)
+      )
     }
   }
 
