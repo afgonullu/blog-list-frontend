@@ -35,7 +35,7 @@ export const initialize = () => {
   return async (dispatch) => {
     const blogs = await blogService.getAll()
     dispatch({
-      type: "INIT",
+      type: "INIT_BLOGS",
       data: blogs,
     })
   }
@@ -55,9 +55,9 @@ const reducer = (state = [], action) => {
       return [...state, action.data].sort((a, b) => b.likes - a.likes)
     case "DELETE":
       return state
-        .filter((item) => item !== action.data.id)
+        .filter((blog) => blog.id !== action.data)
         .sort((a, b) => b.likes - a.likes)
-    case "INIT":
+    case "INIT_BLOGS":
       return action.data.sort((a, b) => b.likes - a.likes)
     default:
       return state

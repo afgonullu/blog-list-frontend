@@ -1,7 +1,7 @@
 import React from "react"
 import { render, fireEvent } from "@testing-library/react"
 import "@testing-library/jest-dom/extend-expect"
-import CreateBlog from "../components/CreateBlog"
+import CreateBlog from "../components/Blog/CreateBlog"
 import blogService from "../services/blogs"
 
 test("<NoteForm /> updates parent state and calls onSubmit", () => {

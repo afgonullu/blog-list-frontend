@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
-import { changeNotification } from "../reducers/notificationReducer"
-import { createBlog } from "../reducers/blogReducer"
+import { changeNotification } from "../../reducers/notificationReducer"
+import { createBlog } from "../../reducers/blogReducer"
 
 const CreateBlog = (props) => {
   const dispatch = useDispatch()

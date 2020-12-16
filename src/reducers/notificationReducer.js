@@ -2,7 +2,7 @@ const reducer = (state = { type: "", message: "" }, action) => {
   console.log("ACTION: ", action)
 
   switch (action.type) {
-    case "A":
+    case "NOTIFY":
       return action.message
     case "CLEAR":
       return ""
@@ -31,7 +31,7 @@ const clearNotification = () => {
 export const changeNotification = (type, message, timeout) => {
   return (dispatch) => {
     dispatch({
-      type: "A",
+      type: "NOTIFY",
       message: { type, message },
     })
     fireNewNotification(dispatch, timeout)
