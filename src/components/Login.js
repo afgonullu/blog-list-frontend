@@ -14,7 +14,6 @@ const Login = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       dispatch(setLoggedIn(user))
-      console.log(user)
     }
   }, [dispatch])
 
@@ -29,7 +28,6 @@ const Login = () => {
       dispatch(login(credentials))
       setUsername("")
       setPassword("")
-      console.log(user)
       dispatch(
         changeNotification(
           "success",

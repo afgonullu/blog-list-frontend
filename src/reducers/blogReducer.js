@@ -1,4 +1,5 @@
 import blogService from "../services/blogs"
+import commentService from "../services/comments"
 
 export const giveLike = (id, blog) => {
   return async (dispatch) => {
@@ -20,10 +21,19 @@ export const createBlog = (blog) => {
   }
 }
 
+export const createComment = (blogId, comment) => {
+  return async (dispatch) => {
+    const newBlog = await commentService.create(blogId, comment)
+    dispatch({
+      type: "ADD_BLOG",
+      data: newBlog,
+    })
+  }
+}
+
 export const deleteBlog = (id) => {
   return async (dispatch) => {
     const deleted = await blogService.deleteBlog(id)
-    console.log(deleted)
     dispatch({
       type: "DELETE",
       data: id,
@@ -42,7 +52,7 @@ export const initialize = () => {
 }
 
 const reducer = (state = [], action) => {
-  console.log("ACTION: ", action)
+  // console.log("ACTION: ", action)
   switch (action.type) {
     case "LIKE":
       const id = action.data.id
@@ -53,6 +63,10 @@ const reducer = (state = [], action) => {
         .sort((a, b) => b.likes - a.likes)
     case "ADD":
       return [...state, action.data].sort((a, b) => b.likes - a.likes)
+    case "ADD_BLOG":
+      return state.map((blog) =>
+        blog.id !== action.data.id ? blog : action.data
+      )
     case "DELETE":
       return state
         .filter((blog) => blog.id !== action.data)

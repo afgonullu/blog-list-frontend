@@ -11,7 +11,7 @@ export const initializeUsers = () => {
 }
 
 const reducer = (state = [], action) => {
-  console.log("ACTION: ", action)
+  // console.log("ACTION: ", action)
   switch (action.type) {
     case "INIT_USERS":
       return action.data

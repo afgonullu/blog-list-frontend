@@ -8,17 +8,15 @@ const LoggedIn = () => {
 
   const handleLogout = () => {
     dispatch(logout())
-    // setUser(null)
-    // window.localStorage.removeItem("loggedBlogListUser")
   }
   return (
-    <div>
-      <p>{user.name} is logged in.</p>
+    <span>
+      <span>{user.name} is logged in.</span>
       <button className="logout" onClick={handleLogout}>
         {" "}
         Log Out
       </button>
-    </div>
+    </span>
   )
 }
 

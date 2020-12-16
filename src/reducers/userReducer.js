@@ -32,13 +32,17 @@ export const logout = () => {
   }
 }
 
-const reducer = (state = { name: "", token: "", username: "" }, action) => {
-  console.log("ACTION: ", action)
+const reducer = (
+  state = { name: "", token: "", username: "", id: "" },
+  action
+) => {
+  // console.log("ACTION: ", action)
   switch (action.type) {
     case "LOGIN":
+      console.log(action.data)
       return action.data
     case "LOGOUT":
-      return { name: "", token: "", username: "" }
+      return { name: "", token: "", username: "", id: "" }
     default:
       return state
   }
