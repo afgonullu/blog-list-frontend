@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { login, setLoggedIn } from "../reducers/userReducer"
 import { changeNotification } from "../reducers/notificationReducer"
+import { Button, Form } from "react-bootstrap"
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -41,34 +42,40 @@ const Login = () => {
   }
 
   return (
-    <div>
-      <h2>Log in to application</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
-            id="username"
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password
-          <input
-            id="password"
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button id="login-button" type="submit">
-          login
-        </button>
-      </form>
-    </div>
+    <Form className="p-2" onSubmit={handleLogin}>
+      <h2 className="mb-2">Log in to application</h2>
+      <Form.Group className="mb-2" controlId="formBasicEmail">
+        <Form.Label>Username</Form.Label>
+        <Form.Control
+          id="username"
+          type="text"
+          value={username}
+          name="Username"
+          placeholder="Enter username"
+          onChange={({ target }) => setUsername(target.value)}
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-2" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          id="password"
+          type="password"
+          value={password}
+          name="Password"
+          onChange={({ target }) => setPassword(target.value)}
+          placeholder="Password"
+        />
+      </Form.Group>
+      <Button
+        className="mb-2"
+        variant="primary"
+        type="submit"
+        id="login-button"
+      >
+        Submit
+      </Button>
+    </Form>
   )
 }
 

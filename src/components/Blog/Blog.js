@@ -1,6 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
+import { ListGroupItem } from "react-bootstrap"
 
 const Blog = ({ blog }) => {
   const blogStyle = {
@@ -12,15 +13,15 @@ const Blog = ({ blog }) => {
   }
 
   return (
-    <div className="blogRow" style={blogStyle}>
+    <ListGroupItem className="blogRow" style={blogStyle}>
       <div className="blog__title-and-author">
         <span>
           <Link to={`/blogs/${blog.id}`}>
-            TITLE: {blog.title} by {blog.author}{" "}
+            {blog.title} by {blog.author}
           </Link>
         </span>
       </div>
-    </div>
+    </ListGroupItem>
   )
 }
 

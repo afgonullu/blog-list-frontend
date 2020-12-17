@@ -11,6 +11,7 @@ import InfoMessage from "./components/InfoMessage"
 import BlogProfile from "./components/BlogProfile"
 import NavBar from "./utilities/Navbar"
 import Footer from "./utilities/Footer"
+import { Container } from "react-bootstrap"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -41,11 +42,8 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <div>
-      <h1>Blog List App by Afg</h1>
-      <div className="NavBar">
-        <NavBar />
-      </div>
+    <Container>
+      <NavBar />
       <InfoMessage message={alert.message} alertType={alert.type} />
 
       <Switch>
@@ -62,8 +60,8 @@ const App = () => {
         <Route path="/users">{user.name !== "" ? <Users /> : <Login />}</Route>
         <Route path="/">{user.name !== "" ? <Home /> : <Login />}</Route>
       </Switch>
-      <div className="Footer">footer</div>
-    </div>
+      <Footer />
+    </Container>
   )
 }
 

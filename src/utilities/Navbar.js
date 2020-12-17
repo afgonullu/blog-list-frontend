@@ -1,22 +1,29 @@
 import React from "react"
-import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import LoggedIn from "../components/LoggedIn"
-import Login from "../components/Login"
+import { Row, Navbar, Nav } from "react-bootstrap"
 
-const Navbar = () => {
+const NavBar = () => {
   const user = useSelector((state) => state.user)
   return (
-    <div>
-      <div>
-        <Link to="/">Home</Link>
-        <Link to={`/users/${user.id}`}>Profile</Link>
-        <Link to="/users">Users</Link>
-      </div>
-
-      {user.name !== "" ? <LoggedIn /> : null}
-    </div>
+    <Row>
+      <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="/">Blogister</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse
+          id="basic-navbar-nav"
+          className=" d-flex justify-content-between"
+        >
+          <Nav>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href={`/users/${user.id}`}>Profile</Nav.Link>
+            <Nav.Link href="/users">Users</Nav.Link>
+          </Nav>
+          <Nav>{user.name !== "" ? <LoggedIn /> : null}</Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </Row>
   )
 }
 
-export default Navbar
+export default NavBar

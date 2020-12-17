@@ -1,4 +1,12 @@
 import React, { useState } from "react"
+import {
+  Button,
+  Form,
+  FormGroup,
+  Row,
+  ListGroup,
+  ListGroupItem,
+} from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { giveLike, deleteBlog } from "../reducers/blogReducer"
 import { createComment } from "../reducers/blogReducer"
@@ -51,44 +59,54 @@ const BlogProfile = ({ blog }) => {
   return (
     <div>
       <h2>{blog.title}</h2>
-      <p>author: {blog.author}</p>
-      <p>{blog.url}</p>
-      <p>
+      <h4 className="text-primary">by {blog.author}</h4>
+      <p className="bg-light text-dark">{blog.url}</p>
+      <p className="display-4">
         {blog.likes} likes so far! Wanna Like Too?{" "}
-        <button className="blog__like-button" onClick={handleLike}>
-          Like
-        </button>
+        <Button
+          variant="primary"
+          className="blog__like-button"
+          onClick={handleLike}
+        >
+          👍 Like
+        </Button>
       </p>
-      <p>added by -&gt; {blog.user.username}</p>
+      <p className="text-muted">added by -&gt; {blog.user.username}</p>
 
       {user.username === blog.user.username ? (
-        <button className="blog__remove-button" onClick={handleDelete}>
-          Remove
-        </button>
+        <Button
+          variant="danger"
+          className="blog__remove-button"
+          onClick={handleDelete}
+        >
+          Remove this entry
+        </Button>
       ) : (
         ""
       )}
-      <div>
+      <Row className="my-5">
         <h2>comments</h2>
-        <form onSubmit={handleAddComment}>
-          <div>
-            text:
-            <input
+        <Form onSubmit={handleAddComment}>
+          <FormGroup className="mb-2">
+            <Form.Label>Comment</Form.Label>
+            <Form.Control
               id="comment"
               type="comment"
               value={text}
               name="Comment"
               onChange={({ target }) => setText(target.value)}
             />
-          </div>
-          <button type="submit">Add New Comment</button>
-        </form>
-        <ul>
+          </FormGroup>
+          <Button className="mb-2" variant="primary" type="submit">
+            Add New Comment
+          </Button>
+        </Form>
+        <ListGroup>
           {blog.comments.map((c) => (
-            <li key={c.id}>{c.text}</li>
+            <ListGroupItem key={c.id}>{c.text}</ListGroupItem>
           ))}
-        </ul>
-      </div>
+        </ListGroup>
+      </Row>
     </div>
   )
 }

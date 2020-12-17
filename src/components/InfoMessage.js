@@ -1,4 +1,5 @@
 import React from "react"
+import { Alert } from "react-bootstrap"
 import { useSelector } from "react-redux"
 
 const InfoMessage = (props) => {
@@ -6,7 +7,9 @@ const InfoMessage = (props) => {
   if (notification === null) {
     return null
   }
-  return <div className={notification.type}>{notification.message}</div>
+  return (
+    <Alert className={`m-5 ${notification.type}`}>{notification.message}</Alert>
+  )
 }
 
 export default InfoMessage
